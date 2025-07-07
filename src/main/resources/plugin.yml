@@ -1,0 +1,7 @@
+name: Sywae
+version: '1.0'
+main: nl.jasperhard.sywae.Sywae
+api-version: '1.21'
+authors: [ Jasperhard ]
+description: A plugin that adds new weapons and combat mechanics.
+website: https://www.youtube.com/@jaspers0ft
