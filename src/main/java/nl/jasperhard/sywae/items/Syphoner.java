@@ -1,0 +1,43 @@
+package nl.jasperhard.sywae.items;
+
+import org.bukkit.Material;
+import org.bukkit.attribute.Attribute;
+import org.bukkit.attribute.AttributeModifier;
+import org.bukkit.inventory.EquipmentSlot;
+import org.bukkit.inventory.ItemFlag;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
+
+public class Syphoner {
+
+    public static ItemStack syphoner;
+
+    @SuppressWarnings("deprecation")
+    public static void createSyphoner() {
+        ItemStack item = new ItemStack(Material.NETHERITE_SWORD, 1);
+        ItemMeta meta = item.getItemMeta();
+        meta.setDisplayName("§6Syphoner");
+        List<String> lore = new ArrayList<>();
+        lore.add("§7Gear Score: §d100");
+        lore.add(" ");
+        lore.add("§6Ability: Syphon §a§lATTACK");
+        lore.add("§7Heals for §c2 Health §7when hitting a mob.");
+        lore.add(" ");
+        lore.add("§6§lLEGENDARY SWORD");
+        meta.setLore(lore);
+        meta.setUnbreakable(true);
+        AttributeModifier modifier = new AttributeModifier(UUID.randomUUID(), "Attack Damage", 10, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.HAND);
+        AttributeModifier modifier2 = new AttributeModifier(UUID.randomUUID(), "Attack Speed", -2.4, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.HAND);
+        meta.addAttributeModifier(Attribute.ATTACK_DAMAGE, modifier);
+        meta.addAttributeModifier(Attribute.ATTACK_SPEED, modifier2);
+        meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
+
+        item.setItemMeta(meta);
+        syphoner = item;
+    }
+
+}

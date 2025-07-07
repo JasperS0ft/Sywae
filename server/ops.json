@@ -1,1 +1,8 @@
-[]
+[
+  {
+    "uuid": "c874a7a2-5cd9-4c14-8222-15bf5d928aae",
+    "name": "JasperHard",
+    "level": 4,
+    "bypassesPlayerLimit": false
+  }
+]

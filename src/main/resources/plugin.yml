@@ -5,3 +5,7 @@ api-version: '1.21'
 authors: [ Jasperhard ]
 description: A plugin that adds new weapons and combat mechanics.
 website: https://www.youtube.com/@jaspers0ft
+commands:
+  sywaegive:
+    description: Opens a custom menu to select custom items.
+    usage: /<command>
