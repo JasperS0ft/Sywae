@@ -9,3 +9,4 @@ commands:
   sywaegive:
     description: Opens a custom menu to select custom items.
     usage: /<command>
+    aliases: [sywaeg, sgive, sg]

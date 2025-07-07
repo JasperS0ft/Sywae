@@ -2,6 +2,7 @@ package nl.jasperhard.sywae;
 
 import net.md_5.bungee.api.ChatMessageType;
 import nl.jasperhard.sywae.commands.SywaeGive;
+import nl.jasperhard.sywae.events.SyphonerEvents;
 import nl.jasperhard.sywae.events.SywaeGiveEvents;
 import nl.jasperhard.sywae.items.ItemManager;
 import nl.jasperhard.sywae.mana.ManaManager;
@@ -18,12 +19,14 @@ import org.bukkit.plugin.java.JavaPlugin;
 public final class Sywae extends JavaPlugin implements Listener {
 
     public static NamespacedKey MANA_ITEM_KEY;
+    public static NamespacedKey ITEM_ID_KEY;
 
     private ManaManager manaManager;
 
     @Override
     public void onEnable() {
         MANA_ITEM_KEY = new NamespacedKey(this, "uses_mana");
+        ITEM_ID_KEY = new NamespacedKey(this, "item_id");
 
         manaManager = new ManaManager(this);
 
@@ -31,6 +34,7 @@ public final class Sywae extends JavaPlugin implements Listener {
 
         ItemManager.init();
 
+        Bukkit.getServer().getPluginManager().registerEvents(new SyphonerEvents(this, manaManager), this);
         Bukkit.getServer().getPluginManager().registerEvents(new SywaeGiveEvents(), this);
 
         getCommand("sywaegive").setExecutor(new SywaeGive());
@@ -65,7 +69,7 @@ public final class Sywae extends JavaPlugin implements Listener {
                 int currentMana = manaManager.getMana(player);
                 int maxMana = manaManager.getMaxMana(player);
 
-                int regen = (int) Math.ceil(maxMana * 0.1);
+                int regen = (int) Math.ceil(maxMana * 0.01);
                 currentMana = Math.min(currentMana + regen, maxMana);
                 manaManager.setMana(player, currentMana);
 
@@ -79,7 +83,7 @@ public final class Sywae extends JavaPlugin implements Listener {
                         new net.md_5.bungee.api.chat.TextComponent(actionBarMessage)
                 );
             }
-        }, 0L, 10L);
+        }, 0L, 2L);
     }
 
     public ManaManager getManaManager() {
