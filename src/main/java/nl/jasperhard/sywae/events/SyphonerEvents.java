@@ -1,6 +1,5 @@
 package nl.jasperhard.sywae.events;
 
-import net.md_5.bungee.api.ChatMessageType;
 import nl.jasperhard.sywae.Sywae;
 import nl.jasperhard.sywae.mana.ManaManager;
 import org.bukkit.*;
@@ -65,13 +64,11 @@ public class SyphonerEvents implements Listener {
     }
 
     private void performSlash(Player player) {
-        int cost = 35;
+        int cost = 45;
 
         if (manaManager.getMana(player) < cost) {
-            player.spigot().sendMessage(
-                    ChatMessageType.ACTION_BAR,
-                    new net.md_5.bungee.api.chat.TextComponent(ChatColor.RED.toString() + ChatColor.BOLD + "NOT ENOUGH MANA")
-            );
+            String message = ChatColor.RED.toString() + ChatColor.BOLD + "NOT ENOUGH MANA";
+            ManaManager.sendActionBarMessage(player, message, plugin, 20);
             player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_TELEPORT, 1f, 0.5f);
             return;
         }
@@ -79,7 +76,7 @@ public class SyphonerEvents implements Listener {
         manaManager.setMana(player, manaManager.getMana(player) - cost);
 
         double baseDamage = getMeleeDamage(player);
-        double damage = baseDamage * 1.5;
+        double damage = baseDamage * 1.35;
         double radius = 4.0;
 
         Location eye = player.getEyeLocation();
@@ -110,12 +107,14 @@ public class SyphonerEvents implements Listener {
         int particles = 30;
         double arcDegrees = 100;
 
+        Particle.DustOptions redDust = new Particle.DustOptions(Color.fromRGB(170, 0, 0), 1.5f);
+
         for (int i = -particles / 2; i < particles / 2; i++) {
             double angle = Math.toRadians(i * (arcDegrees / particles));
             Vector rotated = direction.clone().rotateAroundY(angle).multiply(radius);
             Location particleLoc = origin.clone().add(rotated);
 
-            world.spawnParticle(Particle.SWEEP_ATTACK, particleLoc, 1, 0, 0, 0, 0);
+            world.spawnParticle(Particle.DUST, particleLoc, 0, 0, 0, 0, 0, redDust, true);
         }
     }
 
@@ -137,8 +136,9 @@ public class SyphonerEvents implements Listener {
     public void onPlayerHit(EntityDamageByEntityEvent e) {
         if (!(e.getDamager() instanceof Player player)) return;
         if (isSyphoner(player.getInventory().getItemInMainHand())) {
+            double cooldown = player.getAttackCooldown();
             double maxHealth = player.getAttribute(Attribute.MAX_HEALTH).getValue();
-            double healAmount = 0.25;
+            double healAmount = 2.0 * cooldown;
             double newHealth = Math.min(player.getHealth() + healAmount, maxHealth);
             player.setHealth(newHealth);
         }

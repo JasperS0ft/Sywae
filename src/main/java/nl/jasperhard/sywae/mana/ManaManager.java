@@ -1,9 +1,12 @@
 package nl.jasperhard.sywae.mana;
 
+import net.md_5.bungee.api.ChatMessageType;
+import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scheduler.BukkitTask;
 
 import java.io.File;
 import java.io.IOException;
@@ -17,6 +20,34 @@ public class ManaManager {
     private final JavaPlugin plugin;
     private final File manaFile;
     private FileConfiguration manaConfig;
+
+    private static final Map<UUID, BukkitTask> tasks = new HashMap<>();
+
+    public static void sendActionBarMessage(Player player, String message, JavaPlugin plugin, int durationTicks) {
+        UUID uuid = player.getUniqueId();
+
+        if (tasks.containsKey(uuid)) {tasks.get(uuid).cancel();}
+
+        BukkitTask task = plugin.getServer().getScheduler().runTaskTimer(plugin, new Runnable() {
+            int ticksPassed = 0;
+
+            @Override
+            public void run() {
+                if (ticksPassed >= durationTicks) {
+                    tasks.remove(uuid);
+                    cancel();
+                    return;
+                }
+                String msg = message;
+                player.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(msg));
+                ticksPassed += 1;
+            }
+            private void cancel() {
+                tasks.remove(uuid);
+            }
+        }, 0L, 1L);
+        tasks.put(uuid, task);
+    }
 
     public ManaManager(JavaPlugin plugin) {
         this.plugin = plugin;

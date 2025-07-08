@@ -69,21 +69,21 @@ public final class Sywae extends JavaPlugin implements Listener {
                 int currentMana = manaManager.getMana(player);
                 int maxMana = manaManager.getMaxMana(player);
 
-                int regen = (int) Math.ceil(maxMana * 0.01);
+                int regen = (int) Math.ceil(maxMana * 0.05);
                 currentMana = Math.min(currentMana + regen, maxMana);
                 manaManager.setMana(player, currentMana);
 
-                String actionBarMessage = ChatColor.AQUA + "✎ Mana " +
-                        ChatColor.WHITE + currentMana +
-                        ChatColor.GRAY + "/" +
-                        ChatColor.WHITE + maxMana;
+                String actionBarMessage = ChatColor.AQUA.toString() + currentMana +
+                        ChatColor.WHITE + "/" +
+                        ChatColor.AQUA + maxMana +
+                        ChatColor.AQUA + "✎ Mana";
 
                 player.spigot().sendMessage(
                         ChatMessageType.ACTION_BAR,
                         new net.md_5.bungee.api.chat.TextComponent(actionBarMessage)
                 );
             }
-        }, 0L, 2L);
+        }, 0L, 10L);
     }
 
     public ManaManager getManaManager() {

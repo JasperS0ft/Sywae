@@ -28,12 +28,12 @@ public class Syphoner {
         lore.add("§7Gear Score: §d100");
         lore.add(" ");
         lore.add("§6Ability: Syphon §a§lATTACK");
-        lore.add("§7Heals for §c0.25 Health §7when hitting a mob.");
+        lore.add("§7Heals for §c2 Health §7when hitting a mob.");
         lore.add(" ");
         lore.add("§6Ability: Sweep §a§lRIGHT CLICK");
         lore.add("§7Slash around you dealing §c135% §7melee");
         lore.add("§7damage to all enemies you hit.");
-        lore.add("§8Mana Cost: §735");
+        lore.add("§8Mana Cost: §745");
         lore.add("§8Cooldown: §e1s");
         lore.add(" ");
         lore.add("§6§lLEGENDARY SWORD");
